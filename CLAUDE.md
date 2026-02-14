@@ -20,13 +20,14 @@ No test framework is configured.
 ### Key patterns
 
 - **Server Components by default.** Only add `"use client"` for interactive components (motion animations, event handlers, forms with state).
-- **Layout wrapper**: `components/layout/Layout.tsx` wraps pages with `Header` + `Footer`. Used in page components, not in `app/layout.tsx`.
+- **State Management**: Uses **Jotai** for atomic state. Atoms are defined in `lib/store/*.ts`. Use `useAtom`, `useAtomValue`, or `useSetAtom` in client components.
+- **Async Dynamic APIs (Next.js 15/16)**: In server components (like `page.tsx` or `generateMetadata`), dynamic APIs like `params` and `searchParams` are Promises and must be awaited before accessing properties.
+- **Layout wrapper**: `components/layout/Layout.tsx` wraps pages with `Header` + `Footer` + `CartSidebar`. Used in page components, not in `app/layout.tsx`.
 - **Section components**: Page content is built from `components/sections/*.tsx` modules composed in page files.
-- **SEO infrastructure**: `app/layout.tsx` has full metadata (OG, Twitter, robots) + JSON-LD via `components/JsonLd.tsx` using `schema-dts`. Sitemap auto-generates from filesystem in `app/sitemap.ts` (includes route group traversal). Domain configured via `NEXT_PUBLIC_DOMAIN_NAME` env var.
-- **Animations**: Use `motion/react` (the Motion library, not framer-motion). Import as `import { motion } from "motion/react"`.
-- **Styling**: Tailwind v4 with `@theme` block in `globals.css`. Color tokens use OKLCH in CSS variables (`:root` / `.dark`). Use `cn()` from `lib/utils.ts` for class merging.
-- **Toast notifications**: Sonner is integrated. `<Toaster />` in root layout. Use `import { toast } from "sonner"` in client components.
-- **shadcn/ui config**: `components.json` — style `base-nova`, icon library `tabler`, aliases map `@/components/ui`. Add components via `pnpm dlx shadcn@latest add <component>`.
+- **SEO infrastructure**: `app/layout.tsx` has full metadata (OG, Twitter, robots) + JSON-LD via `components/JsonLd.tsx` using `schema-dts`. Sitemap auto-generates from filesystem in `app/sitemap.ts`.
+- **Animations**: Use `motion/react`. Import as `import { motion } from "motion/react"`.
+- **Styling**: Tailwind v4 with `@theme` block in `globals.css`. Color tokens use OKLCH. Use `cn()` from `lib/utils.ts` for class merging.
+- **Toast notifications**: Sonner is integrated. `<Toaster />` in root layout. Use `import { toast } from "sonner"`.
 
 ### Environment
 
@@ -34,14 +35,17 @@ Requires `NEXT_PUBLIC_DOMAIN_NAME` (see `.env.example`). Used by metadata, robot
 
 ### Font setup
 
-Uses **Outfit** as the primary sans-serif font loaded via `next/font/google` in `app/layout.tsx`. The `--font-sans` CSS variable is mapped in `globals.css` `@theme` block to Tailwind's `font-sans`. Font display set to `swap` for optimal performance.
+Uses **Outfit** as the primary sans-serif font loaded via `next/font/google` in `app/layout.tsx`. Font display set to `swap`.
 
 ### Images
 
-External images require `remotePatterns` in `next.config.ts`. Currently allows `placehold.co`. Always use `next/image` with `fill` + `sizes` or explicit dimensions. Social sharing images (og-image.png, logo.png) located in `/public`.
+Always use `next/image` with `fill` + `sizes` or explicit dimensions. Social sharing images in `/public`.
 
 ### Pages
 
 - `/` - Home page with hero, categories, and featured products
 - `/products` - Full product collection page
+- `/products/[id]` - Dynamic product detail page (Async Params pattern)
+- `/men`, `/women`, `/accessories`, `/sale` - Category collection pages
+- `/contact`, `/shipping`, `/returns`, `/faq`, `/privacy`, `/terms` - Informational and customer service pages
 - `/not-found` - Custom 404 page with animations

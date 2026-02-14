@@ -1,5 +1,6 @@
 import Header from "./Header";
 import Footer from "./Footer";
+import { CartSidebar } from "@/components/cart/CartSidebar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -7,6 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 			<Header />
 			<main>{children}</main>
 			<Footer />
+			<CartSidebar />
 		</>
 	);
 }

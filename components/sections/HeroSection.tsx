@@ -26,6 +26,7 @@ export function HeroSection() {
 						<Button
 							size="lg"
 							className="rounded-full px-8 text-base"
+							nativeButton={false}
 							render={<Link href="/products" />}
 						>
 							Explore Collection

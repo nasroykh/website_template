@@ -10,6 +10,10 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import { motion } from "motion/react";
+import Link from "next/link";
+import { useSetAtom } from "jotai";
+import { addToCartAtom } from "@/lib/store/cartStore";
+import { toast } from "sonner";
 
 const featuredProducts = [
 	{
@@ -42,7 +46,30 @@ const featuredProducts = [
 	},
 ];
 
+interface Product {
+	id: number | string;
+	name: string;
+	price: string;
+	description: string;
+	image: string;
+}
+
 export function FeaturedProductsSection() {
+	const addToCart = useSetAtom(addToCartAtom);
+
+	const handleAddToCart = (e: React.MouseEvent, product: Product) => {
+		e.preventDefault();
+		addToCart({
+			id: product.id,
+			name: product.name,
+			price: product.price,
+			image: product.image,
+		});
+		toast.success("Added to cart", {
+			description: `${product.name} has been added to your cart.`,
+		});
+	};
+
 	return (
 		<section className="py-16 px-4 bg-muted/30">
 			<div className="container mx-auto max-w-6xl">
@@ -58,34 +85,40 @@ export function FeaturedProductsSection() {
 							viewport={{ once: true }}
 							transition={{ delay: index * 0.1 }}
 						>
-							<Card className="group overflow-hidden flex flex-col h-full border-border/50 hover:border-primary/50 transition-colors">
-								<div className="aspect-square relative bg-muted overflow-hidden">
-									<Image
-										src={product.image}
-										alt={product.name}
-										fill
-										className="object-cover transition-transform duration-500 group-hover:scale-105"
-										sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-									/>
-									<div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors" />
-								</div>
-								<CardHeader>
-									<CardTitle className="text-lg">{product.name}</CardTitle>
-									<CardDescription>{product.description}</CardDescription>
-								</CardHeader>
-								<CardFooter className="mt-auto flex justify-between items-center">
-									<span className="font-semibold text-lg text-primary">
-										{product.price}
-									</span>
-									<Button
-										size="sm"
-										variant="secondary"
-										className="group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
-									>
-										Add to Cart
-									</Button>
-								</CardFooter>
-							</Card>
+							<Link href={`/products/${product.id}`}>
+								<Card className="group overflow-hidden flex flex-col h-full border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl cursor-pointer">
+									<div className="aspect-square relative bg-muted overflow-hidden">
+										<Image
+											src={product.image}
+											alt={product.name}
+											fill
+											className="object-cover transition-transform duration-500 group-hover:scale-105"
+											sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+										/>
+										<div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors" />
+									</div>
+									<CardHeader>
+										<CardTitle className="text-lg">{product.name}</CardTitle>
+										<CardDescription>{product.description}</CardDescription>
+									</CardHeader>
+									<CardFooter className="mt-auto flex justify-between items-center">
+										<span className="font-semibold text-lg text-primary">
+											{product.price}
+										</span>
+										<Button
+											size="sm"
+											variant="secondary"
+											nativeButton={false}
+											className="group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300"
+											render={
+												<span onClick={(e) => handleAddToCart(e, product)}>
+													Add to Cart
+												</span>
+											}
+										/>
+									</CardFooter>
+								</Card>
+							</Link>
 						</motion.div>
 					))}
 				</div>
