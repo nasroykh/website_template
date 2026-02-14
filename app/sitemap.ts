@@ -19,9 +19,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			const fullPath = path.join(dir, entry.name);
 
 			if (entry.isDirectory()) {
-				// Ignore special folders like (groups), [dynamic], _private, and api
-				if (
-					!entry.name.startsWith("(") &&
+				// Handle route groups - traverse into them but don't add to path
+				if (entry.name.startsWith("(") && entry.name.endsWith(")")) {
+					routes = [...routes, ...getRoutes(fullPath, basePath)];
+				}
+				// Ignore [dynamic], _private, and api folders
+				else if (
 					!entry.name.startsWith("[") &&
 					!entry.name.startsWith("_") &&
 					entry.name !== "api"

@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -6,8 +8,22 @@ import {
 	IconBrandInstagram,
 	IconMail,
 } from "@tabler/icons-react";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function Footer() {
+	const handleNewsletterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const formData = new FormData(e.currentTarget);
+		const email = formData.get("email") as string;
+
+		if (email) {
+			toast.success("Successfully subscribed!", {
+				description: `We'll send updates to ${email}`,
+			});
+			e.currentTarget.reset();
+		}
+	};
 	return (
 		<footer className="border-t bg-muted/30">
 			<div className="container mx-auto px-4 py-12">
@@ -135,16 +151,18 @@ export default function Footer() {
 						<p className="text-sm text-muted-foreground">
 							Subscribe to get updates on new arrivals and special offers.
 						</p>
-						<div className="flex gap-2">
+						<form onSubmit={handleNewsletterSubmit} className="flex gap-2">
 							<input
 								type="email"
+								name="email"
 								placeholder="Enter your email"
+								required
 								className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
 							/>
-							<button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2">
+							<Button type="submit" className="h-9 px-4 py-2">
 								Subscribe
-							</button>
-						</div>
+							</Button>
+						</form>
 					</div>
 				</div>
 
