@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ShoppingBag, Search, Menu } from "lucide-react";
+import { IconShoppingBag, IconSearch, IconMenu } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -53,16 +53,16 @@ export default function Header() {
 					{/* Right Side Actions */}
 					<div className="flex items-center gap-4">
 						<Button variant="ghost" size="icon" className="hidden sm:flex">
-							<Search className="h-5 w-5" />
+							<IconSearch className="h-5 w-5" />
 							<span className="sr-only">Search</span>
 						</Button>
 						<Button variant="ghost" size="icon" className="relative">
-							<ShoppingBag className="h-5 w-5" />
+							<IconShoppingBag className="h-5 w-5" />
 							<span className="sr-only">Shopping cart</span>
 							<span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-primary"></span>
 						</Button>
 						<Button variant="ghost" size="icon" className="md:hidden">
-							<Menu className="h-5 w-5" />
+							<IconMenu className="h-5 w-5" />
 							<span className="sr-only">Menu</span>
 						</Button>
 					</div>

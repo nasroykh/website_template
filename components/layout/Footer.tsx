@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { Facebook, Twitter, Instagram, Mail } from "lucide-react";
+import {
+	IconBrandFacebook,
+	IconBrandTwitter,
+	IconBrandInstagram,
+	IconMail,
+} from "@tabler/icons-react";
 
 export default function Footer() {
 	return (
@@ -20,28 +25,28 @@ export default function Footer() {
 								className="text-muted-foreground hover:text-foreground transition-colors"
 								aria-label="Facebook"
 							>
-								<Facebook className="h-5 w-5" />
+								<IconBrandFacebook className="h-5 w-5" />
 							</a>
 							<a
 								href="#"
 								className="text-muted-foreground hover:text-foreground transition-colors"
 								aria-label="Twitter"
 							>
-								<Twitter className="h-5 w-5" />
+								<IconBrandTwitter className="h-5 w-5" />
 							</a>
 							<a
 								href="#"
 								className="text-muted-foreground hover:text-foreground transition-colors"
 								aria-label="Instagram"
 							>
-								<Instagram className="h-5 w-5" />
+								<IconBrandInstagram className="h-5 w-5" />
 							</a>
 							<a
 								href="#"
 								className="text-muted-foreground hover:text-foreground transition-colors"
 								aria-label="Email"
 							>
-								<Mail className="h-5 w-5" />
+								<IconMail className="h-5 w-5" />
 							</a>
 						</div>
 					</div>

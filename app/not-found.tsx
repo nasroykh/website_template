@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { motion } from "motion/react";
-import { Home, ArrowLeft } from "lucide-react";
+import { IconHome, IconArrowLeft } from "@tabler/icons-react";
 
 export default function NotFound() {
 	const router = useRouter();
@@ -90,14 +90,12 @@ export default function NotFound() {
 					className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8"
 				>
 					<Button
-						asChild
+						render={<Link href="/" />}
 						size="lg"
 						className="rounded-full px-8 font-medium shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-shadow"
 					>
-						<Link href="/">
-							<Home className="mr-2 h-4 w-4" />
-							Return Home
-						</Link>
+						<IconHome className="mr-2 h-4 w-4" />
+						Return Home
 					</Button>
 					<Button
 						variant="outline"
@@ -105,7 +103,7 @@ export default function NotFound() {
 						className="rounded-full px-8"
 						onClick={() => router.back()}
 					>
-						<ArrowLeft className="mr-2 h-4 w-4" />
+						<IconArrowLeft className="mr-2 h-4 w-4" />
 						Go Back
 					</Button>
 				</motion.div>
