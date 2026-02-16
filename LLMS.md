@@ -14,6 +14,8 @@ This file serves as a comprehensive entry point for LLMs (like Claude, ChatGPT, 
 - **Icons**: Tabler Icons v3 (`@tabler/icons-react`)
 - **Notifications**: Sonner toast library
 - **Type Safety**: TypeScript 5.9.3 (Strict Mode)
+- **Package Manager**: pnpm
+- **Containerization**: Docker with multi-stage builds, standalone output
 
 ## Directory Structure
 
@@ -62,6 +64,40 @@ In server components/metadata, `params` and `searchParams` are Promises.
 - **Structured Data**: JSON-LD via `components/JsonLd.tsx`.
 - **Sitemap**: Crawls `app/` directory automatically.
 
+## Docker Deployment
+
+### Configuration Files
+
+- **Dockerfile**: Multi-stage production build (deps → builder → runner)
+- **docker-compose.yml**: Production orchestration
+- **.dockerignore**: Build context optimization
+- **.env.example**: Environment variable template
+
+### Key Docker Features
+
+- **Standalone Output**: `output: "standalone"` in `next.config.ts` reduces image to ~150-200MB
+- **Multi-stage Build**: Separates dependencies, build, and runtime for optimal caching
+- **pnpm Optimization**: BuildKit cache mounts for fast dependency installation
+- **Security**: Non-root user (nextjs:1001), Alpine base, minimal attack surface
+- **Health Checks**: Built-in container health monitoring
+- **Resource Limits**: CPU and memory constraints for production stability
+
+### Deployment Commands
+
+```bash
+# Production
+make build
+make up
+
+# Build only
+make build-prod NEXT_PUBLIC_DOMAIN_NAME=example.com
+```
+
+### Environment Variables (Required)
+
+- `NEXT_PUBLIC_DOMAIN_NAME`: Domain name for SEO and metadata (build-time + runtime)
+- `PORT`: Application port (default: 3000)
+
 ## Instructions for Extension
 
 ### Adding a New Persistence Atom
@@ -75,6 +111,14 @@ In server components/metadata, `params` and `searchParams` are Promises.
 1. Create `app/[route]/[id]/page.tsx`.
 2. Ensure `params` is typed as `Promise` and awaited.
 3. composable with `Layout` component from `@/components/layout/Layout`.
+
+### Docker Customization
+
+1. **Custom base image**: Modify `FROM` in Dockerfile (maintain Alpine for size)
+2. **Additional dependencies**: Add to `apk add` in deps/builder stages
+3. **Build optimization**: Adjust cache mounts and layer ordering
+4. **Environment variables**: Add to docker-compose.yml environment section
+5. **Multi-architecture**: Use `docker buildx` for arm64/amd64 support
 
 ---
 

@@ -30,6 +30,8 @@ A modern, high-performance e-commerce website template built with Next.js 16.1.6
 
 ## Getting Started
 
+### Local Development
+
 1.  **Install dependencies:**
 
     ```bash
@@ -43,6 +45,20 @@ A modern, high-performance e-commerce website template built with Next.js 16.1.6
     ```
 
 3.  **Open [http://localhost:3000](http://localhost:3000) with your browser.**
+
+### Docker Deployment (Production)
+
+```bash
+# Build and run with docker-compose
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+```
+
+**Configuration:** Set `NEXT_PUBLIC_DOMAIN_NAME` in `.env` file (see `.env.example`).
+
+For detailed Docker documentation, see [DOCKER.md](./DOCKER.md).
 
 ## Project Structure
 
@@ -59,8 +75,21 @@ A modern, high-performance e-commerce website template built with Next.js 16.1.6
   - `utils.ts`: Tailwind class merger and helpers
 - `public/`: Static assets (og-image.png, logo.png, icons)
 
+## Docker Support
+
+This template includes production-ready Docker configuration:
+
+- **Multi-stage Dockerfile** optimized for Next.js with pnpm
+- **Standalone output mode** for minimal image size (~150-200MB)
+- **Security hardening** with non-root user
+- **Health checks** and resource limits configured
+- **docker-compose** for easy orchestration
+
+See [DOCKER.md](./DOCKER.md) for comprehensive deployment guide.
+
 ## Learn More
 
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Jotai Documentation](https://jotai.org/docs/introduction)
 - [Tailwind CSS 4 Documentation](https://tailwindcss.com/docs/v4-beta)
+- [Docker Deployment Guide](./DOCKER.md)

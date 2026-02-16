@@ -4,11 +4,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
+### Local Development
+
 ```bash
 pnpm dev          # Start dev server
 pnpm build        # Production build (also runs TypeScript checking)
 pnpm lint         # ESLint
 pnpm start        # Start production server
+```
+
+### Docker Commands
+
+```bash
+make build              # Build production image
+make up                 # Start production container
+make down               # Stop containers
+make logs               # View logs
 ```
 
 No test framework is configured.
@@ -32,6 +43,15 @@ No test framework is configured.
 ### Environment
 
 Requires `NEXT_PUBLIC_DOMAIN_NAME` (see `.env.example`). Used by metadata, robots.txt, and sitemap generation.
+
+### Docker Configuration
+
+- **Dockerfile**: Multi-stage build optimized for Next.js standalone output
+- **docker-compose.yml**: Production orchestration with health checks and resource limits
+- **.dockerignore**: Optimized build context exclusions
+- **output: "standalone"** in `next.config.ts` enables minimal production image (~150-200MB)
+- Security: Non-root user (nextjs:1001), Alpine base, read-only where possible
+- See `DOCKER.md` for comprehensive deployment guide
 
 ### Font setup
 

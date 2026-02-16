@@ -3,6 +3,7 @@
 .agent
 .claude
 .cursor
+.agents
 
 # dependencies
 /node_modules

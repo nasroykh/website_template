@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
 			},
 		],
 	},
+	// Enable standalone output for Docker optimization
+	// This reduces the production image size significantly
+	output: "standalone",
 };
 
 export default nextConfig;
